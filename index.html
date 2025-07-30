@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GIZO SHOP - Calculadora</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      max-width: 500px;
+      margin: auto;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    #resultados {
+      margin-top: 2rem;
+      padding: 1rem;
+      background-color: #fff;
+      border-radius: 8px;
+    }
+    #versiculo {
+      margin-top: 2rem;
+      font-style: italic;
+      text-align: center;
+      color: #333;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem;
+      font-size: 1rem;
+      background-color: #3c91e6;
+      color: #fff;
+      border: none;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2b6cb0;
+    }
+  </style>
+</head>
+<body>
+  <div style="text-align: center;">
+    <img src="logo-gizo.png" alt="GIZO SHOP Logo" style="max-width: 180px; margin-bottom: 1rem;">
+  </div>
+  <h1>GIZO SHOP - Calculadora de Precios</h1>
+  <label for="precio">Precio en USD ($):</label>
+  <input type="number" id="precio" step="0.01">
+
+  <label for="envio">Costo de Envío (USD):</label>
+  <input type="number" id="envio" step="0.01">
+
+  <label for="isv">% ISV (ej. 15 para 15%):</label>
+  <input type="number" id="isv" step="0.01">
+
+  <label for="ganancia">% Ganancia (ej. 20 para 20%):</label>
+  <input type="number" id="ganancia" step="0.01">
+
+  <label for="cambio">Tasa de Cambio (USD a Lempiras):</label>
+  <input type="number" id="cambio" step="0.01">
+
+  <button onclick="calcularPrecio()">Calcular Precio Total</button>
+
+  <div id="resultados"></div>
+  <div id="versiculo"></div>
+
+  <script>
+    function calcularPrecio() {
+      const precio = parseFloat(document.getElementById('precio').value) || 0;
+      const envio = parseFloat(document.getElementById('envio').value) || 0;
+      const isv = parseFloat(document.getElementById('isv').value) || 0;
+      const ganancia = parseFloat(document.getElementById('ganancia').value) || 0;
+      const cambio = parseFloat(document.getElementById('cambio').value) || 0;
+
+      const subtotal = precio + envio;
+      const montoISV = subtotal * (isv / 100);
+      const subtotalConISV = subtotal + montoISV;
+      const montoGanancia = subtotalConISV * (ganancia / 100);
+      const totalUSD = subtotalConISV + montoGanancia;
+      const totalLempiras = cambio ? totalUSD * cambio : 0;
+
+      document.getElementById('resultados').innerHTML = `
+        <p><strong>Total en USD:</strong> $${totalUSD.toFixed(2)}</p>
+        <p><strong>Total en Lempiras:</strong> L ${totalLempiras.toFixed(2)}</p>
+      `;
+
+      document.getElementById('versiculo').innerHTML = `
+        <p>Job 22:28</p>
+        <p><em>"Determinarás asimismo una cosa, y te será firme,</em></p>
+        <p><em>Y sobre tus caminos resplandecerá luz."</em></p>
+      `;
+    }
+  </script>
+</body>
+</html>
